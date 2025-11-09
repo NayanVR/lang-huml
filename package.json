@@ -1,0 +1,60 @@
+{
+  "name": "lang-huml",
+  "version": "0.1.0",
+  "description": "HUML language support for CodeMirror 6",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "author": "NayanVR",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nayanvr/lang-huml"
+  },
+  "scripts": {
+    "build:grammar": "lezer-generator src/huml.grammar -o src/huml-parser.ts",
+    "build:types": "tsc --project tsconfig.build.json",
+    "build:js": "bun build ./src/index.ts --outdir ./dist --external '@codemirror/*' --external '@lezer/*' --sourcemap=external",
+    "build": "bun run build:grammar && bun run build:js && bun run build:types",
+    "prepare": "bun run build",
+    "test:official": "bun test official-tests.test.ts"
+  },
+  "keywords": [
+    "codemirror",
+    "codemirror6",
+    "huml",
+    "language",
+    "syntax-highlighting"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@codemirror/autocomplete": "^6.19.1",
+    "@codemirror/commands": "^6.5.0",
+    "@codemirror/language": "^6.11.3",
+    "@codemirror/lint": "^6.9.2",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.6",
+    "@lezer/highlight": "^1.2.3",
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@codemirror/autocomplete": "^6.19.1",
+    "@codemirror/commands": "^6.5.0",
+    "@codemirror/language": "^6.11.3",
+    "@codemirror/lint": "^6.9.2",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.6",
+    "@lezer/highlight": "^1.2.3"
+  }
+}

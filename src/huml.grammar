@@ -1,0 +1,136 @@
+@top Document {
+  VersionDirective?
+  (
+    Properties |
+    RootListItems |
+    ExclusiveRootValue
+  )
+}
+
+// --- Separators ---
+
+// A separator is a sequence of newlines, optionally containing comments and spaces.
+// It must contain at least one newline to separate items.
+Separator {
+  (Space* Comment | Newline)* Newline
+}
+
+// A filler is for optional leading/trailing whitespace/comments
+Filler {
+  (Space* Comment | Newline)*
+}
+
+// --- Root Structures ---
+
+Properties {
+  Filler Property (Separator Property)* Filler
+}
+
+RootListItems {
+  Filler RootListItem (Separator RootListItem)* Filler
+}
+
+ExclusiveRootValue {
+  Filler
+  (RootScalar | RootInlineList | RootInlineDict | EmptyList | EmptyDict)
+  Filler
+}
+
+RootScalar { Scalar }
+
+RootInlineList {
+  Scalar "," Space Scalar ("," Space Scalar)*
+}
+
+RootInlineDict {
+  DictPair "," Space DictPair ("," Space DictPair)*
+}
+
+RootListItem { ListItem }
+
+// --- Directives ---
+
+VersionDirective {
+  "%HUML" Space VersionString Newline
+}
+
+// --- Properties & Collections ---
+
+Property {
+  (Key | String) ( ":" Space Scalar | "::" Space* Comment? Newline? Collection )
+}
+
+Collection {
+  EmptyList | EmptyDict | InlineDict | InlineList | Block
+}
+
+Block {
+  Indent
+  ( ListBlockContent | DictBlockContent )
+  Dedent
+}
+
+ListBlockContent {
+  Filler ListItem (Separator ListItem)* Filler
+}
+
+DictBlockContent {
+  Filler Property (Separator Property)* Filler
+}
+
+ListItem {
+  ListMark Space (Scalar | Block | "::" Space* Comment? Newline? Collection )
+}
+
+// --- Inline Structures ---
+
+InlineDict {
+  DictPair ("," Space DictPair)*
+}
+
+DictPair {
+  (Key | String) ":" Space Scalar
+}
+
+InlineList {
+  Scalar |
+  (Scalar ("," Space Scalar)+) |
+  ("[" (Scalar ("," Space Scalar)*)? "]")
+}
+
+EmptyList { "[]" }
+EmptyDict { "{}" }
+
+// --- Scalars ---
+
+Scalar {
+  (String | Number | Boolean | Null | SpecialNumber | BlockString | FoldedString)
+}
+
+Null { "null" }
+
+SpecialNumber {
+  "nan" | "inf" | "+inf" | "-inf"
+}
+
+// --- External Tokenizers & Context ---
+
+@context trackIndent from "./tokens"
+@external tokens indentation from "./tokens" { Indent, Dedent, Newline }
+@external tokens multilineStrings from "./tokens" { BlockString, FoldedString }
+@external tokens stringToken from "./tokens" { String }
+@external tokens numberToken from "./tokens" { Number }
+@external tokens keyToken from "./tokens" { Key }
+@external tokens listMarkToken from "./tokens" { ListMark }
+
+@tokens {
+  Boolean { "true" | "false" }
+  Comment { "# " ![\n]* | "#" }
+  VersionString { "v" $[0-9]+ "." $[0-9]+ "." $[0-9]+ }
+  Space { " " }
+
+  ":" "::"
+  "%HUML"
+
+  "[" "]" "," "{" "}"
+}
