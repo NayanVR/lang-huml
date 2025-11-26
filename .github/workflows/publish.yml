@@ -1,4 +1,5 @@
 name: Publish
+
 on:
   push:
     branches:
@@ -7,10 +8,34 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
-      id-token: write
+      id-token: write # required for BOTH JSR and npm provenance
+
     steps:
-      - uses: actions/checkout@v5
-      - name: Publish package
-        run: npx jsr publish
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      # -------------------------------
+      # Publish to npm using OIDC
+      # -------------------------------
+      - name: Publish to npm
+        run: |
+          bun publish --access public
+
+      # -------------------------------
+      # Publish to JSR using OIDC
+      # -------------------------------
+      - name: Publish to JSR
+        run: |
+          bunx jsr publish
