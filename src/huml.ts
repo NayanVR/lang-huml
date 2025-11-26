@@ -7,7 +7,7 @@ import { styleTags, tags } from "@lezer/highlight";
 import { LRParser } from "@lezer/lr";
 import { humlAutocomplete } from "./autocomplete";
 import { humlLinter } from "./diagnostics";
-import { parser } from "./huml-parser";
+import { parser } from "./huml-parser-typed";
 import { humlEnter, humlIndent } from "./indent";
 
 // Ensure tags is available - this helps with module resolution issues

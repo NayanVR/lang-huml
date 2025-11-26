@@ -1,5 +1,5 @@
 {
-  "name": "lang-huml",
+  "name": "@nayanvr/lang-huml",
   "version": "0.1.0",
   "description": "HUML language support for CodeMirror 6",
   "type": "module",
@@ -45,6 +45,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.6",
     "@lezer/highlight": "^1.2.3",
+    "@lezer/lr": "^1.4.3",
     "@types/bun": "latest",
     "typescript": "^5.0.0"
   },
@@ -55,6 +56,7 @@
     "@codemirror/lint": "^6.9.2",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.6",
-    "@lezer/highlight": "^1.2.3"
+    "@lezer/highlight": "^1.2.3",
+    "@lezer/lr": "^1.4.3"
   }
 }

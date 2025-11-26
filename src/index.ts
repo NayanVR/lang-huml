@@ -1,3 +1,3 @@
 export { huml, humlLanguage } from "./huml";
-export { parser } from "./huml-parser";
+export { parser } from "./huml-parser-typed";
 
