@@ -6,11 +6,11 @@ This package provides a complete editing experience for the HUML configuration l
 
 ## Features
 
-- 🎨 **Syntax Highlighting**: Full colorization for keys, strings, numbers, booleans, and comments.
-- 🔍 **Error Diagnostics**: Real-time syntax error detection with helpful messages.
-- ✨ **Autocompletion**: Context-aware suggestions for keys and values.
-- ⌨️ **Smart Indentation**: Automatic indentation handling for blocks and lists.
-- ⚡ **High Performance**: Built on the Lezer parser system for incremental parsing.
+- **Syntax Highlighting**: Full colorization for keys, strings, numbers, booleans, and comments.
+- **Error Diagnostics**: Real-time syntax error detection with helpful messages.
+- **Autocompletion**: Context-aware suggestions for keys and values.
+- **Smart Indentation**: Automatic indentation handling for blocks and lists.
+- **High Performance**: Built on the Lezer parser system for incremental parsing.
 
 ## Installation
 
@@ -33,10 +33,6 @@ import { basicSetup } from "codemirror";
 import { huml } from "lang-huml";
 
 const state = EditorState.create({
-  doc: `version: v1.0.0
-server:
-  port: 8080
-  host: "localhost"`,
   extensions: [
     basicSetup,
     huml() // Add HUML language support
