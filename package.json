@@ -19,7 +19,7 @@
   "author": "NayanVR",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nayanvr/lang-huml"
+    "url": "git+https://github.com/NayanVR/lang-huml.git"
   },
   "scripts": {
     "build:grammar": "lezer-generator src/huml.grammar -o src/huml-parser.ts",
