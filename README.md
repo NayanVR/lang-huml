@@ -130,10 +130,10 @@ The tokenizer logic handles edge cases like:
 #### Multiline Strings
 HUML supports two types of multiline strings:
 1.  **Block String (`"""`)**: Preserves newlines.
-2.  **Folded String (` \`\`\` `)**: Folds newlines into spaces (like YAML folded style).
+2.  **Folded String (` ``` `)**: Folds newlines into spaces (like YAML folded style).
 
 **Tokenizer Logic**:
-- Detects the opening delimiter (`"""` or ` \`\`\` `).
+- Detects the opening delimiter (`"""` or ` ``` `).
 - Enforces a newline immediately after the delimiter.
 - Consumes lines until the closing delimiter is found.
 - **Crucial**: Validates that the closing delimiter has the *same indentation* as the opening block.

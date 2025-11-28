@@ -1,21 +1,51 @@
 name: Publish
-
 on:
   push:
     branches:
       - main
 
 jobs:
-  publish:
+  publish-npm:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
-      id-token: write # required for BOTH JSR and npm provenance
-
+      id-token: write # REQUIRED for Trusted Publishing
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      # 1. Use Bun for speed in install/build
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      # 2. We need Node.js to access the 'npm' CLI
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      # 3. Trusted Publishing requires npm version 11.5.1+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+
+  publish-jsr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
@@ -26,16 +56,5 @@ jobs:
       - name: Build
         run: bun run build
 
-      # -------------------------------
-      # Publish to npm using OIDC
-      # -------------------------------
-      - name: Publish to npm
-        run: |
-          bun publish --access public
-
-      # -------------------------------
-      # Publish to JSR using OIDC
-      # -------------------------------
       - name: Publish to JSR
-        run: |
-          bunx jsr publish
+        run: bunx jsr publish
