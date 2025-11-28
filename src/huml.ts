@@ -41,6 +41,14 @@ const parserWithMetadata: LRParser = parser.configure({
     ]
 });
 
+/**
+ * The LRLanguage definition for HUML.
+ *
+ * This object defines the parser and language data (such as comment tokens)
+ * for the HUML language. It is used internally by the `huml()` function
+ * but can also be used directly if you need to configure the language
+ * support manually.
+ */
 export const humlLanguage: LRLanguage = LRLanguage.define({
     parser: parserWithMetadata,
     languageData: {
@@ -49,8 +57,29 @@ export const humlLanguage: LRLanguage = LRLanguage.define({
 });
 
 /**
- * Create HUML language support with optional schema validation
- * @param schema - Optional schema for validation and autocomplete suggestions
+ * HUML language support for CodeMirror 6.
+ *
+ * This extension provides syntax highlighting, linting, autocompletion,
+ * and smart indentation for the HUML data format.
+ *
+ * @returns A LanguageSupport instance configured for HUML.
+ *
+ * @example
+ * ```typescript
+ * import { EditorState } from "@codemirror/state";
+ * import { EditorView } from "@codemirror/view";
+ * import { huml } from "@nayanvr/lang-huml";
+ *
+ * const state = EditorState.create({
+ *   doc: "key: value",
+ *   extensions: [huml()]
+ * });
+ *
+ * const view = new EditorView({
+ *   state,
+ *   parent: document.body
+ * });
+ * ```
  */
 export function huml(): LanguageSupport {
     // Create autocomplete function
