@@ -1,6 +1,6 @@
 {
   "name": "@nayanvr/lang-huml",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "HUML language support for CodeMirror 6",
   "type": "module",
   "main": "./dist/index.js",
